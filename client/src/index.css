@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.link {
+    @apply text-gray-500  font-semibold pr-3 md:pr-0  my-5 mr-2 md:mr-5  md:hover:border-b-2 md:hover:border-primary md:hover:text-black transition-all ease-in duration-100;
+}
+
+.button2 {
+    @apply  pr-3 md:pr-0   my-5 mr-1 md:mr-5 mt-7 md:mt-5;
+}
+
+.active{
+    @apply md:border-r-0  md:border-b-2 border-r-4 text-black border-primary ;
+}
+
+.button1 {
+    @apply      my-5  ;
+}
+
+.occupied{
+    @apply bg-primary text-white text-sm py-1 px-1 border-2 border-primary  rounded;
+}
+
+.notoccupied{
+    @apply  text-primary border-2 border-primary text-sm py-1 px-1   rounded;
+}
+
+.label{
+    @apply mt-8 md:mt-8 flex flex-col items-center md:items-start  md:flex-row justify-center;
+}
