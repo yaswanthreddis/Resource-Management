@@ -8,7 +8,7 @@ import Button1 from "./components/Button1";
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('HOD');
+  const [role, setRole] = useState('Admin');
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -54,6 +54,7 @@ function Login() {
             <h1 className="text-xl md:text-2xl  font-bold">Log in<span className="text-primary"></span></h1>
           </div>
           <div className="py-4">
+            <input type="radio" name="role" className="mr-1" value="Admin" checked={role === "Admin"} onChange={() => setRole('Admin')} /><span className="mr-8 md:mr-20 font-medium">Admin</span>
             <input type="radio" name="role" className="mr-1" value="HOD" checked={role === "HOD"} onChange={() => setRole('HOD')} /><span className="mr-8 md:mr-20 font-medium">HOD</span>
             <input type="radio" name="role" className="mr-1" value="Faculty" checked={role === "Faculty"} onChange={() => setRole('Faculty')} /><span className="font-medium">Faculty</span>
           </div>
