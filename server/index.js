@@ -54,35 +54,7 @@ app.post('/searchrooms', (req, res) => {
   const { Building_Name, Weekdayy, Slot, User_Id } = req.body;
 
   const sql = `
-  SELECT
-  r.Room_Id,
-  r.Room_Name,
-  r.Student_Capacity,
-  r.No_of_Computers,
-  r.Projector_Availbility,
-  r.Internet_Availbility,
-  r.Room_Type,
-  r.Belongs_To,
-  ss.Branch_Occupied,
-  ss.Subject,
-  MIN(ss.Occupied) AS Occupied
-FROM
-  resources_db.rooms r
-JOIN
-  resources_db.static_schedule ss ON r.Room_Id = ss.Room_Id
-JOIN
-  resources_db.building_details bd ON r.Building_Id = bd.Building_Id
-WHERE
-  bd.Building_Name = ? AND ss.Day_ = ? AND ss.Slot = ?
-GROUP BY
-  r.Room_Id,
-  ss.Subject,
-  r.Student_Capacity,
-  r.Projector_Availbility,
-  r.Internet_Availbility,
-  r.Room_Type,
-  ss.Branch_Occupied;
-
+  SELECT       r.Room_Id,       r.Room_Name,       r.Student_Capacity,       r.No_of_Computers,       r.Projector_Availbility,       r.Internet_Availbility,       r.Room_Type,       r.Belongs_To,       ss.Branch_Occupied,       ss.Occupied     FROM resources_db.rooms r     JOIN resources_db.static_schedule ss ON r.Room_Id = ss.Room_Id     JOIN resources_db.building_details bd ON r.Building_Id = bd.Building_Id     WHERE bd.Building_Name = ? AND ss.Day_ = ? AND ss.Slot = ?      GROUP BY       r.Room_Id,       r.Student_Capacity,       r.Projector_Availbility,       r.Internet_Availbility,       r.Room_Type,       ss.Branch_Occupied,       ss.Occupied;
   `;
 
   con.query(sql, [Building_Name, Weekdayy, Slot], (err, results) => {
@@ -139,29 +111,7 @@ app.post('/request', async (req, res) => {
 
     // Make a request to the /searchrooms endpoint to get the updated data
     const sql = `
-    SELECT
-      r.Room_Id,
-      r.Room_Name,
-      r.Student_Capacity,
-      r.No_of_Computers,
-      r.Projector_Availbility,
-      r.Internet_Availbility,
-      r.Room_Type,
-      r.Belongs_To,
-      ss.Branch_Occupied,
-      ss.Occupied
-    FROM resources_db.rooms r
-    JOIN resources_db.static_schedule ss ON r.Room_Id = ss.Room_Id
-    JOIN resources_db.building_details bd ON r.Building_Id = bd.Building_Id
-    WHERE bd.Building_Name = ? AND ss.Day_ = ? AND ss.Slot = ?
-    GROUP BY
-      r.Room_Id,
-      r.Student_Capacity,
-      r.Projector_Availbility,
-      r.Internet_Availbility,
-      r.Room_Type,
-      ss.Branch_Occupied,
-      ss.Occupied
+    SELECT       r.Room_Id,       r.Room_Name,       r.Student_Capacity,       r.No_of_Computers,       r.Projector_Availbility,       r.Internet_Availbility,       r.Room_Type,       r.Belongs_To,       ss.Branch_Occupied,       ss.Occupied     FROM resources_db.rooms r     JOIN resources_db.static_schedule ss ON r.Room_Id = ss.Room_Id     JOIN resources_db.building_details bd ON r.Building_Id = bd.Building_Id     WHERE bd.Building_Name = ? AND ss.Day_ = ? AND ss.Slot = ?      GROUP BY       r.Room_Id,       r.Student_Capacity,       r.Projector_Availbility,       r.Internet_Availbility,       r.Room_Type,       ss.Branch_Occupied,       ss.Occupied;
   `;
 
   con.query(sql, [Building_Name, Weekday, Slot], (err, results) => {
