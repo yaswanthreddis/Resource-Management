@@ -150,7 +150,7 @@ function Room() {
                             <span ></span><br />
                         </div>
                         <div className="md:mt-1">
-                            <span className="button1 bg-primary text-white py-2 px-5 rounded-lg  pb-2 " onClick={search} >Search</span>
+                            <span className="button1 bg-primary text-white py-2 px-5 rounded-lg  pb-2 cursor-pointer" onClick={search} >Search</span>
 
                         </div>
 
