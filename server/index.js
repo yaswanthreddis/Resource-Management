@@ -217,7 +217,7 @@ app.post('/buildings',(req,res)=>{
   con.query(sql,(buildingERR,buildingresults)=>{
     if (buildingERR) {
       res.status(500).send('Internal Server Error');
-      throw Err;
+      throw buildingERR;
   }
   if (buildingresults.length > 0) {
       // Requests found, send success response
@@ -228,6 +228,46 @@ app.post('/buildings',(req,res)=>{
   }
   });
 })
+
+app.post('/admin/building',(req,res) => {
+  const {Building_Name,No_of_Floors,No_of_Classrooms,No_of_Labs,No_of_conference_Halls}=req.body;
+  const insertsql='INSERT INTO resources_db.building_details (Building_Name,No_of_Floors,No_of_Classrooms,No_of_Labs,No_of_conference_Halls) VALUES(?,?,?,?,?)';
+  con.query(insertsql,[Building_Name,No_of_Floors,No_of_Classrooms,No_of_Labs,No_of_conference_Halls],(insertErr,insertresults) =>{
+    if(insertErr){
+      res.status(500).send('Internal Server Error');
+      throw insertErr;
+    }
+    res.json({message:"Building Added successfully"})
+  });
+});
+
+app.post('/admin/rooms',(req,res) => {
+  const {Building_Name,Room_Name,Student_Capicity,Projector_Availability,Internet_Availability, No_of_Computers, Belongs_To,Room_Type}=req.body;
+  const buildingidsql='SELECT Building_Id FROM building_details WHERE Building_Name=?';
+  con.query(buildingidsql,[Building_Name],(err,rows)=>{
+    if (err) {
+      // Handle error
+      console.error('Error executing query:', err);
+      return;
+    }
+    if (rows.length > 0) {
+      // Building_Id found, you can access it from rows[0].Building_Id
+      const Building_Id = rows[0].Building_Id;
+    }
+  
+  })
+  const insertsql='INSERT INTO resources_db.building_details (Building_Name,No_of_Floors,No_of_Classrooms,No_of_Labs,No_of_conference_Halls) VALUES(?,?,?,?,?)';
+  con.query(insertsql,[Building_Name,],(insertErr,insertresults) =>{
+    if(insertErr){
+      res.status(500).send('Internal Server Error');
+      throw insertErr;
+    }
+    res.json({message:"Building Added successfully"})
+  });
+});
+
+
+
 app.listen(port, function() {
   console.log(`Example app listening on port ${port}`)
 })
