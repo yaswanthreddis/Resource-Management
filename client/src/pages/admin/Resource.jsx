@@ -138,6 +138,24 @@ function Resource() {
         setFloors(event.target.value)
     }
 
+    const [classroom, setClassRoom] = useState("")
+
+    const handleClassRoom = (event) => {
+        setClassRoom(event.target.value)
+    }
+
+    const [lab, setLab] = useState("")
+
+    const handleLab = (event) => {
+        setLab(event.target.value)
+    }
+
+
+    const [conference, setConference] = useState("")
+
+    const handleConference = (event) => {
+        setConference(event.target.value)
+    }
 
 
     const [room, setRoom] = useState("")
@@ -215,7 +233,9 @@ function Resource() {
     return (
         <>
             <div className="grid grid-flow-row justify-center items-center ">
-                <div className="flex flex-row justify-center">
+
+                <div className="bg-blue-100 px-16 md:px-60 rounded-md shadow-lg mb-6">
+                <div className="flex flex-row justify-center mt-3">
                     <h1 className="text-2xl md:text-3xl  font-bold">Add Resource<span className="text-primary">.</span></h1>
                 </div>
 
@@ -252,6 +272,41 @@ function Resource() {
                         </div>
                         <div>
                             <input placeholder="No. of floors" name="Building_Name" type="number" value={floors} onChange={handleFloors} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary " />
+
+                        </div>
+
+                    </div>
+
+                    
+
+                    <div className="py-4"> {/*username*/}
+                        <div className="pb-3 font-medium">
+                            <span>No. of Class Rooms:</span><br />
+                        </div>
+                        <div>
+                            <input placeholder="No. of Class Rooms" name="No of class rooms" type="number" value={classroom} onChange={handleClassRoom} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary " />
+
+                        </div>
+
+                    </div>
+
+                    <div className="py-4"> {/*username*/}
+                        <div className="pb-3 font-medium">
+                            <span>No. of Labs:</span><br />
+                        </div>
+                        <div>
+                            <input placeholder="No. of Labs" name="No of labs" type="number" value={lab} onChange={handleLab} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary " />
+
+                        </div>
+
+                    </div>
+
+                    <div className="py-4"> {/*username*/}
+                        <div className="pb-3 font-medium">
+                            <span>No. of Conference Halls:</span><br />
+                        </div>
+                        <div>
+                            <input placeholder="No. of Conference Halls" name="No of conference halls" type="number" value={conference} onChange={handleConference} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary " />
 
                         </div>
 
@@ -404,6 +459,8 @@ function Resource() {
 
                 </div>
                 )}
+
+</div>
 
             </div>
 
