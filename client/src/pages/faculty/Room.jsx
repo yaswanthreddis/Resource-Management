@@ -16,8 +16,8 @@ function Room() {
             try {
                 const res = await axios.post(`http://localhost:3001/buildings`);
                 if (res.data.success) {
-                    console.log(res.data.results);
-                    setbuildingdata(res.data.results)
+                    console.log(res.data.result);
+                    setbuildingdata(res.data.result)
                     
                 } else {
                     // fetch failed
