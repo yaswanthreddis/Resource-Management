@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import classroom from '../assets/classroom.svg';
 import computerlab from '../assets/computerlab.png';
 import seminarhall from '../assets/seminarhall.png';
+import axios from 'axios';
 
 const Request_Modal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [request,setRequest] = useState(false);
+  const confirmRelease = () => {
+    const isConfirmed = window.confirm("Are you sure you want to Release?");
+    if (isConfirmed) {
+      handleRelease();
+    }
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,6 +28,36 @@ const Request_Modal = (props) => {
 
   const handleChange1 = () => {
     setRequest(false)
+  }
+
+  const handleRelease = async () => {
+
+    try{
+      //console.log(Day, Slot, Date, Building_Name, Day, Slot,Belongs_To)
+      const data={Building_Name:props.Building_Name,Day:props.Weekday,Slot:props.Slot,User_Id:props.User_Id,Room_Id:props.Room_id,Room_Name:props.room,Date:props.date,Belongs_To:props.belongsTo}
+      const res = await axios.post(`http://localhost:3001/releaseroom`, data);
+      
+      if (res.data.success) {
+        console.log(res.data.results);
+        props.updateData(res.data.results);
+
+        
+    }
+    else {
+        // fetch failed
+        alert(response.data.message);
+    }
+
+  } 
+  catch (error) {
+    console.error('Error fetching', error);
+    alert('An error occurred while fecthing. Please try again.');
+};
+
+      
+
+       
+      
   }
 
 
@@ -62,6 +99,8 @@ const Request_Modal = (props) => {
                         <p className="text-sm text-black pl-3">{props.internet ? "Yes" : "No"}</p>
                         <p className="text-sm text-gray-900">Projector:</p>
                         <p className="text-sm text-black pl-3">{props.projector ? "Yes" : "No"}</p>
+                        <p className="text-sm text-gray-900">Subject:</p>
+                        <p className="text-sm text-black pl-3">{props.subject}</p>
                       </div>
                     </div>
                   </div>
@@ -87,15 +126,12 @@ const Request_Modal = (props) => {
                 <div className="mt-5  md:mx-0 sm:mt-4 flex justify-end">
                   <div className={request ? "hidden" : ""}>
                   <button
-                    className={props.isRequested ? "inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-slate-300  text-base font-medium text-slate-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" 
-                    :" inline-flex justify-center rounded-md border-2 border-primary shadow-sm px-4 py-2 bg-primary text-base font-medium text-white  focus:outline-none   sm:ml-3 sm:w-auto sm:text-sm "}
-                    disabled={props.isRequested}
+                    className={props.isReleased ? "inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-slate-300  text-base font-medium text-slate-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" 
+                    :" inline-flex justify-center rounded-md border-2 border-primary shadow-sm px-4 py-2 bg-primary text-base font-medium text-white  focus:outline-none   sm:ml-3 sm:w-auto sm:text-sm "} 
+                    disabled={props.isReleased} onClick={confirmRelease}
                     >
-                    {props.isRequested ? "Released" : "Release"}
+                    {props.isReleased ? "Released" : "Release"}
                   </button>
-                  
-
-                  
                   </div>
                 </div>
                 

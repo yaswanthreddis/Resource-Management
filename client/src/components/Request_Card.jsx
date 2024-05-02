@@ -16,7 +16,7 @@ function RequestCard(props) {
   const handleCancel = async () =>{
     try {
               
-      const data = {User_Id:props.User_Id,Request_Id:props.request_id}
+      const data = {Request_Id:props.request_id,User_Id:props.User_Id}
       const res = await axios.post(`http://localhost:3001/cancelrequest`, data);
       if (res.data.success) {
           console.log(res.data.result);
@@ -26,7 +26,7 @@ function RequestCard(props) {
       }
       else {
           // fetch failed
-          alert(response.data.message);
+          props.handleUpdate([])
       }
   }
   catch (error) {

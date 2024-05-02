@@ -2,6 +2,7 @@ import React from "react";
 import Nav2 from "./Nav2";
 import Home from "./pages/admin/Home";
 import Resource from "./pages/admin/Resource";
+import View from "./pages/admin/View";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -15,6 +16,7 @@ function Faculty() {
                   <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/resource" element={<Resource />} />
+                      <Route path="/view" element={<View />} />
                       
                   </Routes>
               </div>

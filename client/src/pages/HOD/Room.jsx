@@ -10,12 +10,17 @@ import computerlab from '../../assets/computerlab.png'
 function Room() {
 
     const [data, setData] = useState([])
-
-    const User_Id = 1;
     const [classdata, setClassdata] = useState([])
     const [seminardata, setSeminardata] = useState([])
     const [labdata, setLabdata] = useState([])
 
+
+    const userData = JSON.parse(sessionStorage.getItem('userDetails'));
+                if (!userData) {
+                    // Handle case when user details are not available in sessionStorage
+                    return;
+                }
+                const { userId,username, department} = userData;
 
     const search = async () => {
         const lay = document.getElementById("lay");
@@ -29,8 +34,9 @@ function Room() {
 
             try {
                 
-                const data = { User_Id,Building_Name,date,Weekdayy, Slot }
-                const res = await axios.post(`http://localhost:3001/searchrooms`, data);
+                const data = { User_Id:userId,Building_Name,date,Weekdayy, Slot,Belongs_To:department}
+                const res = await axios.post(`http://localhost:3001/hodsearchrooms`, data);
+                console.log(res.data.results)
                 if (res.data.success) {
                     setData(res.data.results);
 
@@ -38,6 +44,9 @@ function Room() {
                     setClassdata(res.data.results.filter((obj) => obj.Room_Type === 'Class Room'));
                     setSeminardata(res.data.results.filter((obj) => obj.Room_Type === 'Seminar Hall'));
                     setLabdata(res.data.results.filter((obj) => obj.Room_Type === 'Computer Lab'));
+                    console.log(classdata)
+                    console.log(seminardata)
+                    console.log(labdata)
                     
                 }
                 else {
@@ -83,7 +92,7 @@ function Room() {
 
     
 
-    const Requested_By = "KSR"
+    const Released_By = username
 
     const updateData = (updatedData) => {
         setData(updatedData);
@@ -221,17 +230,17 @@ function Room() {
 
 
                 </div>
-                <div id="lay" className="p-5 mt-6 rounded-md md:w-100 w-80 grid justify-center">
+                <div id="lay" className="p-5 mt-6 rounded-md md:w-110 w-80 grid justify-center">
 
-                    <div className="flex flex-wrap  gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4  gap-4">
                         {
 
                             
                             classdata.map((object, i )=>
                                 <div key={i}>
                                     <Request room={object.Room_Name} capacity={object.Student_Capacity} computers={object.No_of_Computers} type={object.Room_Type} isOccupied={object.Occupied}
-                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} 
-                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={User_Id} updateData={updateData}
+                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isReleased={object.Released} 
+                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Released_By = {Released_By} date={date} User_Id={userId} updateData={updateData} subject={object.Subject_}
                                          />
                                 </div>
                             )
@@ -241,22 +250,22 @@ function Room() {
 
                     </div>
 
-                    <div className=" mt-8 flex flex-wrap gap-4">
+                    <div className=" mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
                         {
 
 
                             seminardata.map((object, i) =>
                                 <div key={i}>
                                     <Request room={object.Room_Name} capacity={object.Student_Capacity} computers={object.No_of_Computers} type={object.Room_Type} isOccupied={object.Occupied}
-                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} 
-                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={User_Id} updateData={updateData}
+                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isReleased={object.Released} 
+                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Released_By = {Released_By} date={date} User_Id={userId} updateData={updateData} subject={object.Subject_}
                                          />
                                 </div>
                             )
                         }
                     </div>
 
-                    <div className="mt-8 flex flex-wrap gap-4">
+                    <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
                         {
 
 
@@ -264,8 +273,8 @@ function Room() {
                             labdata.map((object, i) =>
                                 <div key={i}>
                                     <Request room={object.Room_Name} capacity={object.Student_Capacity} computers={object.No_of_Computers} type={object.Room_Type} isOccupied={object.Occupied}
-                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} 
-                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={User_Id} updateData={updateData}
+                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isReleased={object.Released} 
+                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Released_By = {Released_By} date={date} User_Id={userId} updateData={updateData} subject={object.Subject_}
                                          />
                                 </div>
                             )

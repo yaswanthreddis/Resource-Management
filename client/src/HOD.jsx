@@ -3,6 +3,7 @@ import {  Routes, Route } from "react-router-dom";
 import Home from './pages/HOD/Home.jsx'
 import Room from './pages/HOD/Room.jsx'
 import Request from './pages/HOD/Request.jsx'
+import Lab from "./pages/HOD/Lab.jsx";
 import Nav from "./Nav.jsx";
 function HOD(){
     
@@ -21,6 +22,7 @@ function HOD(){
                   <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/room" element={<Room />} />
+                      <Route path="/lab" element={<Lab />} />
                       <Route path="/request" element={<Request />}/>
                   </Routes>
               </div>

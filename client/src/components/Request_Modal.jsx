@@ -36,7 +36,7 @@ const Request_Modal = (props) => {
 
           try {
               
-              const data = {Building_Name: props.Building_Name, Weekday:props.Weekday , date:props.date ,Slot:props.Slot,Room_Id:props.Room_id,Room_Name:props.room,Purpose:purpose,Requested_By:props.Requested_By,Approval_Status:Approval_Status,User_Id:props.User_Id}
+              const data = {Building_Name: props.Building_Name, Weekday:props.Weekday , date:props.date ,Slot:props.Slot,Room_Id:props.Room_id,Room_Name:props.room,Purpose:purpose,Requested_By:props.Requested_By,Approval_Status:Approval_Status,User_Id:props.User_Id,Belongs_To:props.belongsTo}
               const res = await axios.post(`http://localhost:3001/request`, data);
               if (res.data.success) {
                   console.log(res.data.results);

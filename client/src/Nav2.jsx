@@ -60,6 +60,7 @@ function Nav2(){
                     <ul className="text-right  p-2 hidden  md:flex md:justify-evenly " id ="nav">
                         <CustomLink name="Home" to="/admin/"  ham={ham}/>
                         <CustomLink name="Add Resource" to="/admin/resource" ham={ham}/>
+                        <CustomLink name="View" to="/admin/view" ham={ham}/>
                         <Button2 name="Log out"  to="/" cls="button2"/>
                          
                         

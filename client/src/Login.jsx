@@ -19,14 +19,23 @@ function Login() {
       console.log("res",res);
       console.log("Role",res.data.Role);
       if (res.data.success) {
+        const userData = res.data.results[0];
+         // Store user details in sessionStorage
+      sessionStorage.setItem('userDetails', JSON.stringify({
+        userId: userData.User_Id,
+        username: userData.Username,
+        department: userData.Department
+      }));
+
         console.log(res)
         if (res.data.results[0].Role === "Faculty") {
           navigate('/faculty');
-        /* 
+        }
+        
         else if(res.data.results[0].Role === "Admin"){
           navigate('/admin');
-        }*/
-        } else {
+        }
+         else {
           navigate('/hod');
         }
       }

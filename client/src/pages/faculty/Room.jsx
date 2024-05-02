@@ -33,6 +33,12 @@ function Room() {
     }, []);
 
     const User_Id = 2;
+    const userData = JSON.parse(sessionStorage.getItem('userDetails'));
+                if (!userData) {
+                    // Handle case when user details are not available in sessionStorage
+                    return;
+                }
+                const { userId,username, department} = userData;
     const [classdata, setClassdata] = useState([])
     const [seminardata, setSeminardata] = useState([])
     const [labdata, setLabdata] = useState([])
@@ -50,15 +56,13 @@ function Room() {
 
             try {
                 
-                const data = { User_Id,Building_Name,date,Weekdayy, Slot }
+                const data = { User_Id:userId,Building_Name,date,Weekdayy, Slot }
                 const res = await axios.post(`http://localhost:3001/searchrooms`, data);
                 if (res.data.success) {
                     setData(res.data.results);
 
 
-                    setClassdata(res.data.results.filter((obj) => obj.Room_Type === 'Class Room'));
-                    setSeminardata(res.data.results.filter((obj) => obj.Room_Type === 'Seminar Hall'));
-                    setLabdata(res.data.results.filter((obj) => obj.Room_Type === 'Computer Lab'));
+                    
                     
                 }
                 else {
@@ -79,6 +83,12 @@ function Room() {
 
         
     }
+
+    useEffect(() => {
+                    setClassdata(data.filter((obj) => obj.Room_Type === 'Class Room'));
+                    setSeminardata(data.filter((obj) => obj.Room_Type === 'Seminar Hall'));
+                    setLabdata(data.filter((obj) => obj.Room_Type === 'Computer Lab'));
+    },[data])
 
     const [date,setDate] = useState(new Date().toISOString().split('T')[0])
     const [Slot,setTime] = useState("S1")
@@ -112,9 +122,7 @@ function Room() {
     const updateData = (updatedData) => {
         setData(updatedData);
     
-        setClassdata(prevData => updatedData.filter((obj) => obj.Room_Type === 'Class Room'))
-        setSeminardata(prevData => updatedData.filter((obj) => obj.Room_Type === 'Seminar Hall'))
-        setLabdata(prevData => updatedData.filter((obj) => obj.Room_Type === 'Computer Lab'))        
+        
     };
       
     
@@ -135,10 +143,10 @@ function Room() {
                             <span>Building:</span><br />
                         </div>
                         <div>
-                            <select name="type" value={Building_Name} onChange={handleBuilding} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-40 h-9 focus:outline-primary text-gray-400 focus:text-primary ">
-                                <option value="Research Park" selected={Building_Name === "Research Park"} >Research Park</option>
-                                <option value="Main Building" selected={Building_Name === "Main Building"}>Main Building</option>
-                                <option value="Civil Mechnical Block" selected={Building_Name === "Civil Mechnical Block"}>Civil Mechnical Block</option>
+                        <select name="type" value={Building_Name} onChange={handleBuilding} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-40 h-9 focus:outline-primary text-gray-400 focus:text-primary ">
+                                {buildingdata.map((building, index) => (
+                                    <option key={index} value={building.Building_name} selected={Building_Name === building.Building_name}>{building.Building_name}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -257,17 +265,18 @@ function Room() {
 
 
                 </div>
-                <div id="lay" className="p-5 mt-6 rounded-md md:w-100 w-80 grid justify-center">
+                <div id="lay" className="p-5 mt-6 rounded-md md:w-110 w-80 grid justify-center">
+                    
 
-                    <div className="flex flex-wrap  gap-4">
+                    <div className=" grid grid-cols-2 md:grid-cols-4 gap-4">
                         {
 
                             
                             classdata.map((object, i )=>
                                 <div key={i}>
                                     <Request room={object.Room_Name} capacity={object.Student_Capacity} computers={object.No_of_Computers} type={object.Room_Type} isOccupied={object.Occupied}
-                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} 
-                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={User_Id} updateData={updateData} subject = {object.Subject}
+                                        belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} subject = {object.Subject_}
+                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={userId} updateData={updateData} 
                                          />
                                 </div>
                             )
@@ -277,7 +286,7 @@ function Room() {
 
                     </div>
 
-                    <div className=" mt-8 flex flex-wrap gap-4">
+                    <div className=" mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
                         {
 
 
@@ -285,14 +294,14 @@ function Room() {
                                 <div key={i}>
                                     <Request room={object.Room_Name} capacity={object.Student_Capacity} computers={object.No_of_Computers} type={object.Room_Type} isOccupied={object.Occupied}
                                         belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} 
-                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={User_Id} updateData={updateData}
+                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={userId} updateData={updateData}
                                          />
                                 </div>
                             )
                         }
                     </div>
 
-                    <div className="mt-8 flex flex-wrap gap-4">
+                    <div className="mt-8 grid grid-cols-2  md:grid-cols-4 gap-4">
                         {
 
 
@@ -301,11 +310,13 @@ function Room() {
                                 <div key={i}>
                                     <Request room={object.Room_Name} capacity={object.Student_Capacity} computers={object.No_of_Computers} type={object.Room_Type} isOccupied={object.Occupied}
                                         belongsTo={object.Belongs_To} occupiedBy={object.Branch_Occupied} internet={object.Internet_Availbility} projector={object.Projector_Availbility} isRequested={object.Requested} 
-                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={User_Id} updateData={updateData}
+                                        Building_Name={Building_Name} Weekday={Weekdayy} Slot={Slot} Room_id={object.Room_Id} Requested_By = {Requested_By} date={date} User_Id={userId} updateData={updateData}
                                          />
                                 </div>
                             )
                         }
+                    </div>
+
                     </div>
 
 
@@ -315,7 +326,7 @@ function Room() {
 
 
 
-                </div>
+                
             </div>
         </>
     )

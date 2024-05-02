@@ -4,6 +4,11 @@ import 'aos/dist/aos.css';
 import bec from '../../assets/bec.png';
 
 function Home() {
+
+    const data = {
+        labels: ['A', 'B', 'C', 'D', 'E'],
+        values: [10, 20, 15, 25, 30],
+      };
     useEffect(() => {
         AOS.init({
             offset: 120,

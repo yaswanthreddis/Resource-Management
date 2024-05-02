@@ -60,6 +60,7 @@ function Nav(){
                     <ul className="text-right  p-2 hidden  md:flex md:justify-evenly " id ="nav">
                         <CustomLink name="Home" to="/hod/"  ham={ham}/>
                         <CustomLink name="Room Info" to="/hod/room" ham={ham}/>
+                        <CustomLink name="Lab and Hall Info" to="/hod/lab" ham={ham}/>
                         <CustomLink name="Requests" to="/hod/request" ham={ham}/>
                         <Button2 name="Log out"  to="/" cls="button2"/>
                          

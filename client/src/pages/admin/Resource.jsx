@@ -9,13 +9,26 @@ function Resource() {
     const [data, setData] = useState([])
     const [buildingdata, setbuildingdata] = useState([])
 
-    /*useEffect(() => {
+    const [showBuildingForm, setShowBuildingForm] = useState(true);
+    const [showRoomForm, setShowRoomForm] = useState(false);
+
+    const handleRadioChange = (event) => {
+        if (event.target.value === "building") {
+            setShowBuildingForm(true);
+            setShowRoomForm(false);
+        } else if (event.target.value === "room") {
+            setShowBuildingForm(false);
+            setShowRoomForm(true);
+        }
+    };
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const res = await axios.post(`http://localhost:3001/buildings`);
                 if (res.data.success) {
-                    console.log(res.data.results);
-                    setbuildingdata(res.data.results)
+                    console.log(res.data.result);
+                    setbuildingdata(res.data.result)
                     
                 } else {
                     // fetch failed
@@ -28,8 +41,8 @@ function Resource() {
         };
 
         fetchData();
-    }, []);
-    */
+    }, [showBuildingForm]);
+    
 
 
 
@@ -40,15 +53,17 @@ function Resource() {
         }
     }
 
+    
+
     const addBuilding = async () => {
 
 
 
 
-        /* try {
+        try {
              
-             const data = { Building_Name,floors }
-             const res = await axios.post(`http://localhost:3001/searchrooms`, data);
+             const data = { Building_Name:Building_Name,No_of_Floors:floors,No_of_Classrooms:classroom,No_of_Labs:lab,No_of_conference_Halls:conference, }
+             const res = await axios.post(`http://localhost:3001/admin/building`, data);
              if (res.data.success) {
                  alert("Building Added Sucessfully")   
              }
@@ -62,11 +77,14 @@ function Resource() {
              alert('An error occurred while fecthing. Please try again.');
          };
 
-         */
+         
 
 
         setBuildingName("")
         setFloors("")
+        setClassRoom("")
+        setLab("")
+        setConference("")
 
 
 
@@ -84,15 +102,19 @@ function Resource() {
         }
     }
 
+
+    const [type, setType] = useState("Class Room")
+
+    
     const addRoom = async () => {
 
 
 
 
-        /* try {
+         try {
              
-             const data = { room,Building_Name1,capacity,projector,internet,computer,belongs,type }
-             const res = await axios.post(`http://localhost:3001/searchrooms`, data);
+             const data = { Room_Name:room,Building_Name:Building_Name1,Student_Capacity:capacity,Projector_Availbility:projector,Internet_Availbility:internet,No_of_Computers:computer,Belongs_To:belongs,Room_Type:type }
+             const res = await axios.post(`http://localhost:3001/admin/rooms`, data);
              if (res.data.success) {
                  alert("Room Added Sucessfully")   
              }
@@ -106,7 +128,7 @@ function Resource() {
              alert('An error occurred while fecthing. Please try again.');
          };
 
-         */
+
 
 
         setRoom("")
@@ -202,25 +224,10 @@ function Resource() {
         setBelongs(event.target.value)
     }
 
-    const [type, setType] = useState("Class Room")
-
-    const handleType = (event) => {
-        setType(event.target.value)
-    }
+    
 
 
-    const [showBuildingForm, setShowBuildingForm] = useState(true);
-    const [showRoomForm, setShowRoomForm] = useState(false);
-
-    const handleRadioChange = (event) => {
-        if (event.target.value === "building") {
-            setShowBuildingForm(true);
-            setShowRoomForm(false);
-        } else if (event.target.value === "room") {
-            setShowBuildingForm(false);
-            setShowRoomForm(true);
-        }
-    };
+    
 
 
 
@@ -248,8 +255,9 @@ function Resource() {
                     </div>
                     <div>
                         <input type="radio" name="add" value="room" checked={showRoomForm} onChange={handleRadioChange} />
-                        <span>Add Room</span>
+                        <span>Add Class Room</span>
                     </div>
+                    
                 </div>
 
                 {showBuildingForm && (
@@ -351,10 +359,10 @@ function Resource() {
                             <span>Building:</span><br />
                         </div>
                         <div>
-                            <select name="type" value={Building_Name1} onChange={handleBuilding1} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary ">
-                                <option value="Research Park" selected={Building_Name1 === "Research Park"} >Research Park</option>
-                                <option value="Main Building" selected={Building_Name1 === "Main Building"}>Main Building</option>
-                                <option value="Civil Mechnical Block" selected={Building_Name1 === "Civil Mechnical Block"}>Civil Mechnical Block</option>
+                        <select name="type" value={Building_Name} onChange={handleBuilding} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary ">
+                                {buildingdata.map((building, index) => (
+                                    <option key={index} value={building.Building_name} selected={Building_Name === building.Building_name}>{building.Building_name}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -426,20 +434,7 @@ function Resource() {
 
                     </div>
 
-                    <div className="py-4"> {/*username*/}
-                        <div className="pb-3 font-medium">
-                            <span>Room Type:</span><br />
-                        </div>
-                        <div>
-                            <select name="type" value={type} onChange={handleType} className="py-2 outline outline-gray-300 focus:outline-none rounded-md pl-1 disabled:border-b-2 disabled:border-gray-300 w-48 md:w-64 h-9 focus:outline-primary text-gray-400 focus:text-primary ">
-                                <option value="Class Room" selected={type === "Class Room"} >Class Room</option>
-                                <option value="Computer Lab" selected={type === "IT"}>Computer Lab</option>
-                                <option value="Seminar Hall" selected={type === "Seminar Hall"}>Seminar Hall</option>
-
-                            </select>
-                        </div>
-
-                    </div>
+                    
 
 
 

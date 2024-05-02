@@ -3,6 +3,7 @@ import Nav1 from "./Nav1";
 import Home from "./pages/faculty/Home";
 import Room from "./pages/faculty/Room";
 import Request from "./pages/faculty/Request"
+import Lab from "./pages/faculty/Lab";
 import { Route, Routes } from "react-router-dom";
 
 function Faculty() {
@@ -15,6 +16,7 @@ function Faculty() {
                   <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/room" element={<Room />} />
+                      <Route path="/lab" element={<Lab />} />
                       <Route path="/request" element={<Request />}/>
                   </Routes>
               </div>
